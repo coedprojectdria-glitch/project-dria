@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Submit a Request — Project DRIA</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600&family=Source+Sans+3:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --maroon:       #6B1B2A;
+      --maroon-dark:  #4a1019;
+      --maroon-light: #f9f0f2;
+      --maroon-mid:   #8a2236;
+      --gold:         #C9A84C;
+      --gold-light:   #fdf6e3;
+      --gold-dark:    #9a7a2a;
+      --white:        #ffffff;
+      --off-white:    #fafaf8;
+      --text:         #1c1c1c;
+      --muted:        #6b6b6b;
+      --border:       #e8e0e0;
+      --border-light: #f0e8e8;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Source Sans 3', sans-serif;
+      background: var(--off-white);
+      color: var(--text);
+      font-size: 16px;
+      line-height: 1.6;
+    }
+
+    /* ── TOPBAR ── */
+    .topbar {
+      background: var(--gold);
+      padding: 6px 0;
+      text-align: center;
+      font-size: 11.5px;
+      font-weight: 500;
+      color: var(--maroon-dark);
+      letter-spacing: 0.03em;
+    }
+
+    /* ── NAV ── */
+    nav {
+      background: var(--maroon);
+      padding: 0 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 64px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      border-bottom: 2px solid var(--gold);
+    }
+
+    .nav-brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+    }
+
+    .nav-seal {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: var(--gold);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Playfair Display', serif;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--maroon-dark);
+      flex-shrink: 0;
+      border: 2px solid rgba(255,255,255,0.2);
+    }
+
+    .nav-text { line-height: 1.25; }
+    .nav-text strong {
+      display: block;
+      font-family: 'Playfair Display', serif;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--white);
+      letter-spacing: 0.01em;
+    }
+    .nav-text span {
+      font-size: 10.5px;
+      color: rgba(255,255,255,0.65);
+      font-weight: 300;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: rgba(255,255,255,0.8);
+      text-decoration: none;
+      font-size: 12.5px;
+      font-weight: 400;
+      padding: 6px 12px;
+      border-radius: 6px;
+      transition: background 0.15s, color 0.15s;
+    }
+
+    .nav-links a:hover {
+      background: rgba(255,255,255,0.1);
+      color: var(--white);
+    }
+
+    .nav-links a.active {
+      background: rgba(201,168,76,0.2);
+      color: var(--gold);
+    }
+
+    .nav-links .btn-submit {
+      background: var(--gold);
+      color: var(--maroon-dark);
+      font-weight: 600;
+      padding: 6px 14px;
+      border-radius: 6px;
+      margin-left: 6px;
+    }
+
+    .nav-links .btn-submit:hover { background: #d4b55a; }
+
+    /* ── PAGE HEADER ── */
+    .page-header {
+      background: var(--maroon);
+      padding: 36px 40px 32px;
+      border-bottom: 2px solid var(--gold);
+    }
+
+    .page-header-inner {
+      max-width: 860px;
+      margin: 0 auto;
+    }
+
+    .breadcrumb {
+      font-size: 11px;
+      color: rgba(255,255,255,0.45);
+      margin-bottom: 10px;
+    }
+
+    .breadcrumb a {
+      color: rgba(255,255,255,0.45);
+      text-decoration: none;
+    }
+
+    .breadcrumb a:hover { color: var(--gold); }
+    .breadcrumb span { margin: 0 6px; }
+
+    .page-header h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 28px;
+      font-weight: 600;
+      color: var(--white);
+      margin-bottom: 6px;
+    }
+
+    .page-header p {
+      font-size: 13.5px;
+      color: rgba(255,255,255,0.65);
+      font-weight: 300;
+    }
+
+    /* ── TABS ── */
+    .tabs-wrapper {
+      background: var(--white);
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 64px;
+      z-index: 90;
+    }
+
+    .tabs {
+      max-width: 860px;
+      margin: 0 auto;
+      display: flex;
+      padding: 0 40px;
+      gap: 4px;
+    }
+
+    .tab {
+      padding: 14px 18px;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--muted);
+      text-decoration: none;
+      border-bottom: 2px solid transparent;
+      transition: color 0.15s, border-color 0.15s;
+      white-space: nowrap;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+    }
+
+    .tab svg {
+      width: 14px;
+      height: 14px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 1.5;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .tab:hover { color: var(--maroon); }
+
+    .tab.active {
+      color: var(--maroon);
+      border-bottom-color: var(--maroon);
+    }
+
+    /* ── MAIN ── */
+    main {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 36px 40px 60px;
+    }
+
+    /* ── FORM SECTION ── */
+    .form-section {
+      display: none;
+    }
+
+    .form-section.active {
+      display: block;
+    }
+
+    .form-section-header {
+      margin-bottom: 24px;
+    }
+
+    .form-section-header h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 22px;
+      font-weight: 500;
+      color: var(--maroon);
+      margin-bottom: 6px;
+    }
+
+    .form-section-header p {
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.6;
+      max-width: 600px;
+    }
+
+    /* ── REQUIREMENTS BOX ── */
+    .requirements {
+      background: var(--gold-light);
+      border: 1px solid #e6d080;
+      border-radius: 10px;
+      padding: 16px 20px;
+      margin-bottom: 24px;
+    }
+
+    .requirements h4 {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--gold-dark);
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .requirements h4 svg {
+      width: 13px;
+      height: 13px;
+      stroke: var(--gold-dark);
+      fill: none;
+      stroke-width: 1.5;
+      stroke-linecap: round;
+    }
+
+    .requirements ul {
+      list-style: none;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .requirements ul li {
+      font-size: 11.5px;
+      color: #7a5e00;
+      background: rgba(201,168,76,0.15);
+      border: 1px solid rgba(201,168,76,0.3);
+      border-radius: 20px;
+      padding: 3px 10px;
+    }
+
+    /* ── STEPS ── */
+    .steps {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 24px;
+      flex-wrap: wrap;
+    }
+
+    .step {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11.5px;
+      color: var(--muted);
+    }
+
+    .step-num {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: var(--maroon-light);
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
+      font-weight: 600;
+      color: var(--maroon);
+      flex-shrink: 0;
+    }
+
+    .step-divider {
+      width: 20px;
+      height: 1px;
+      background: var(--border);
+    }
+
+    /* ── FORM EMBED CONTAINER ── */
+    .form-embed-wrapper {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    .form-embed-wrapper iframe {
+      width: 100%;
+      height: 820px;
+      border: none;
+      display: block;
+    }
+
+    /* ── PLACEHOLDER (remove once real form URLs are added) ── */
+    .form-placeholder {
+      background: var(--white);
+      border: 2px dashed var(--border);
+      border-radius: 12px;
+      padding: 60px 40px;
+      text-align: center;
+    }
+
+    .form-placeholder svg {
+      width: 40px;
+      height: 40px;
+      stroke: #ccc;
+      fill: none;
+      stroke-width: 1.2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      margin-bottom: 14px;
+    }
+
+    .form-placeholder h3 {
+      font-size: 14px;
+      font-weight: 600;
+      color: #bbb;
+      margin-bottom: 6px;
+    }
+
+    .form-placeholder p {
+      font-size: 12px;
+      color: #ccc;
+      margin-bottom: 16px;
+    }
+
+    .form-placeholder code {
+      display: inline-block;
+      background: #f5f5f5;
+      border: 1px solid #e0e0e0;
+      border-radius: 6px;
+      padding: 8px 14px;
+      font-size: 12px;
+      color: var(--maroon);
+      font-family: monospace;
+    }
+
+    /* ── NOTICE ── */
+    .notice {
+      background: var(--maroon-light);
+      border: 1px solid var(--border-light);
+      border-radius: 10px;
+      padding: 14px 18px;
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+      margin-bottom: 24px;
+    }
+
+    .notice svg {
+      width: 16px;
+      height: 16px;
+      stroke: var(--maroon);
+      fill: none;
+      stroke-width: 1.5;
+      stroke-linecap: round;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    .notice p {
+      font-size: 12px;
+      color: var(--maroon);
+      line-height: 1.55;
+    }
+
+    .notice p strong { font-weight: 600; }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--maroon-dark);
+      padding: 24px 40px;
+      border-top: 2px solid var(--gold);
+    }
+
+    .footer-inner {
+      max-width: 860px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .footer-inner p, .footer-inner a {
+      font-size: 11px;
+      color: rgba(255,255,255,0.5);
+      text-decoration: none;
+    }
+
+    .footer-inner a:hover { color: var(--gold); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 680px) {
+      nav { padding: 0 20px; }
+      .nav-links { display: none; }
+      .page-header { padding: 28px 20px; }
+      .tabs { padding: 0 20px; overflow-x: auto; }
+      main { padding: 24px 20px 48px; }
+      .form-embed-wrapper iframe { height: 1000px; }
+      .footer-inner { flex-direction: column; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="topbar">
+    Tarlac State University &mdash; College of Education &mdash; Graduate School Service Portal
+  </div>
+
+  <nav>
+    <a href="index.html" class="nav-brand">
+      <div class="nav-seal">TSU</div>
+      <div class="nav-text">
+        <strong>Project DRIA</strong>
+        <span>COEd Graduate School</span>
+      </div>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="submit.html" class="active">Submit a request</a></li>
+      <li><a href="track.html">Track my request</a></li>
+      <li><a href="faq.html">FAQs</a></li>
+      <li><a href="contact.html">Contact</a></li>
+      <li><a href="submit.html" class="btn-submit">Submit now</a></li>
+    </ul>
+  </nav>
+
+  <div class="page-header">
+    <div class="page-header-inner">
+      <div class="breadcrumb">
+        <a href="index.html">Home</a>
+        <span>&rsaquo;</span>
+        Submit a request
+      </div>
+      <h1>Submit a Request</h1>
+      <p>Choose the service below that matches your need and fill out the form. Make sure to use your active Gmail address.</p>
+    </div>
+  </div>
+
+  <div class="tabs-wrapper">
+    <div class="tabs">
+      <a href="#comp-exam" class="tab active" onclick="showTab('comp-exam', this)">
+        <svg viewBox="0 0 24 24"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="2"/><line x1="9" y1="12" x2="15" y2="12"/><line x1="9" y1="16" x2="12" y2="16"/></svg>
+        Comprehensive exam
+      </a>
+      <a href="#oral-defense" class="tab" onclick="showTab('oral-defense', this)">
+        <svg viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+        Oral defense tracking
+      </a>
+      <a href="#inquiry" class="tab" onclick="showTab('inquiry', this)">
+        <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+        General inquiry
+      </a>
+    </div>
+  </div>
+
+  <main>
+
+    <!-- ══ FORM 1: COMPREHENSIVE EXAM ══ -->
+    <div id="comp-exam" class="form-section active">
+      <div class="form-section-header">
+        <h2>Comprehensive Exam Application</h2>
+        <p>Fill out this form to apply for your comprehensive examination. This replaces the paper form TSU-VPA-SF-39. Make sure you have already paid at the Cashiering Office before submitting.</p>
+      </div>
+
+      <div class="requirements">
+        <h4>
+          <svg viewBox="0 0 24 24"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>
+          What you need ready
+        </h4>
+        <ul>
+          <li>Your O.R. number &amp; date of payment</li>
+          <li>List of subjects taken (Basic, Major, Electives)</li>
+          <li>Preferred date of exam</li>
+          <li>Active Gmail address</li>
+        </ul>
+      </div>
+
+      <div class="steps">
+        <div class="step"><div class="step-num">1</div> Fill out form</div>
+        <div class="step-divider"></div>
+        <div class="step"><div class="step-num">2</div> Email confirmation sent</div>
+        <div class="step-divider"></div>
+        <div class="step"><div class="step-num">3</div> Office reviews</div>
+        <div class="step-divider"></div>
+        <div class="step"><div class="step-num">4</div> Status update via email</div>
+      </div>
+
+      <div class="notice">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        <p><strong>Important:</strong> Enter your Gmail address correctly — all notifications will be sent there. You can also track your request on the <a href="track.html" style="color:var(--maroon);font-weight:600;">Track my request</a> page.</p>
+      </div>
+
+      <!-- ✏️ REPLACE the src below with your actual Google Form embed URL -->
+      <!-- How to get it: Open your Google Form → Click Send → Click Embed icon → Copy the src URL only -->
+      <div class="form-embed-wrapper">
+        <iframe
+          src="https://docs.google.com/forms/d/e/1FAIpQLSdc28d88JTda0Q0-EAiLZzoHZ02h1r7npUISjYOR-8r2QArSw/viewform?embedded=true"
+          title="Comprehensive Exam Application Form">
+        </iframe>
+      </div>
+</div>
+
+    <!-- ══ FORM 2: ORAL DEFENSE ══ -->
+    <div id="oral-defense" class="form-section">
+      <div class="form-section-header">
+        <h2>Thesis / Dissertation Oral Defense Tracking</h2>
+        <p>Use this form to submit your current step in the oral defense process. The office will update your status and notify you of the next steps by email.</p>
+      </div>
+
+      <div class="requirements">
+        <h4>
+          <svg viewBox="0 0 24 24"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>
+          What you need ready
+        </h4>
+        <ul>
+          <li>Your thesis / dissertation title</li>
+          <li>Name of preferred adviser</li>
+          <li>Current step you are on (Steps 1–8)</li>
+          <li>O.R. number (if already paid)</li>
+          <li>Active Gmail address</li>
+        </ul>
+      </div>
+
+      <div class="steps">
+        <div class="step"><div class="step-num">1</div> Fill out form</div>
+        <div class="step-divider"></div>
+        <div class="step"><div class="step-num">2</div> Email confirmation sent</div>
+        <div class="step-divider"></div>
+        <div class="step"><div class="step-num">3</div> Office reviews</div>
+        <div class="step-divider"></div>
+        <div class="step"><div class="step-num">4</div> Status update via email</div>
+      </div>
+
+      <div class="notice">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        <p><strong>Note:</strong> Scheduling of oral defense depends on the availability of the panel committee. You will be notified via email once it is set.</p>
+      </div>
+
+      <!-- ✏️ REPLACE the src below with your actual Google Form embed URL -->
+      <div class="form-embed-wrapper">
+        <iframe
+          src="https://docs.google.com/forms/d/e/1FAIpQLSdHZDmuH180WmIDogow-MsQk9h1m-Pd_r3l0x2QYNubqNRH5A/viewform?embedded=true"
+          title="Oral Defense Tracking Form">
+        </iframe>
+      </div>
+
+
+    </div>
+
+    <!-- ══ FORM 3: GENERAL INQUIRY ══ -->
+    <div id="inquiry" class="form-section">
+      <div class="form-section-header">
+        <h2>General Inquiry</h2>
+        <p>Send your questions, follow-ups, or concerns to the Graduate School office. No more chasing staff on personal Messenger — all inquiries go through here.</p>
+      </div>
+
+      <div class="requirements">
+        <h4>
+          <svg viewBox="0 0 24 24"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>
+          What you need ready
+        </h4>
+        <ul>
+          <li>Your full name</li>
+          <li>Type of concern</li>
+          <li>Clear description of your question</li>
+          <li>Active Gmail address for reply</li>
+        </ul>
+      </div>
+
+      <div class="notice">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        <p><strong>Response time:</strong> The office aims to respond within 1–3 working days in accordance with RA 11032 – Ease of Doing Business Act.</p>
+      </div>
+
+      <!-- ✏️ REPLACE the src below with your actual Google Form embed URL -->
+      <div class="form-embed-wrapper">
+        <iframe
+          src="https://docs.google.com/forms/d/e/1FAIpQLSeArKsYqQrhZKXV-A1UPJ3doCLDfZirNyTfXB-yOVORDMAqog/viewform?embedded=true"
+          title="General Inquiry Form">
+        </iframe>
+      </div>
+
+
+    </div>
+
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+      <p>&copy; 2025 Tarlac State University &mdash; College of Education. Project DRIA.</p>
+      <p>Aligned with <a href="#">RA 11032 &mdash; Ease of Doing Business Act</a></p>
+    </div>
+  </footer>
+
+  <script>
+    function showTab(id, el) {
+      document.querySelectorAll('.form-section').forEach(s => s.classList.remove('active'));
+      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+      document.getElementById(id).classList.add('active');
+      el.classList.add('active');
+    }
+
+    const hash = window.location.hash.replace('#','');
+    if (hash) {
+      const target = document.getElementById(hash);
+      const tab = document.querySelector(`.tab[href="#${hash}"]`);
+      if (target && tab) showTab(hash, tab);
+    }
+  </script>
+
+</body>
+</html>

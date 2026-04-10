@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>FAQs — Project DRIA</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600&family=Source+Sans+3:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --maroon:       #6B1B2A;
+      --maroon-dark:  #4a1019;
+      --maroon-light: #f9f0f2;
+      --maroon-mid:   #8a2236;
+      --gold:         #C9A84C;
+      --gold-light:   #fdf6e3;
+      --gold-dark:    #9a7a2a;
+      --white:        #ffffff;
+      --off-white:    #fafaf8;
+      --text:         #1c1c1c;
+      --muted:        #6b6b6b;
+      --border:       #e8e0e0;
+      --border-light: #f0e8e8;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Source Sans 3', sans-serif;
+      background: var(--off-white);
+      color: var(--text);
+      font-size: 16px;
+      line-height: 1.6;
+    }
+    .topbar {
+      background: var(--gold);
+      padding: 6px 0;
+      text-align: center;
+      font-size: 11.5px;
+      font-weight: 500;
+      color: var(--maroon-dark);
+      letter-spacing: 0.03em;
+    }
+    nav {
+      background: var(--maroon);
+      padding: 0 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 64px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      border-bottom: 2px solid var(--gold);
+    }
+    .nav-brand { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+    .nav-seal {
+      width: 40px; height: 40px; border-radius: 50%;
+      background: var(--gold); display: flex; align-items: center; justify-content: center;
+      font-family: 'Playfair Display', serif; font-size: 12px; font-weight: 600;
+      color: var(--maroon-dark); flex-shrink: 0; border: 2px solid rgba(255,255,255,0.2);
+    }
+    .nav-text { line-height: 1.25; }
+    .nav-text strong { display: block; font-family: 'Playfair Display', serif; font-size: 14px; font-weight: 500; color: var(--white); }
+    .nav-text span { font-size: 10.5px; color: rgba(255,255,255,0.65); font-weight: 300; }
+    .nav-links { display: flex; align-items: center; gap: 4px; list-style: none; }
+    .nav-links a { color: rgba(255,255,255,0.8); text-decoration: none; font-size: 12.5px; padding: 6px 12px; border-radius: 6px; transition: background 0.15s, color 0.15s; }
+    .nav-links a:hover { background: rgba(255,255,255,0.1); color: var(--white); }
+    .nav-links a.active { background: rgba(201,168,76,0.2); color: var(--gold); }
+    .nav-links .btn-submit { background: var(--gold); color: var(--maroon-dark); font-weight: 600; padding: 6px 14px; border-radius: 6px; margin-left: 6px; }
+    .nav-links .btn-submit:hover { background: #d4b55a; }
+    .page-header { background: var(--maroon); padding: 36px 40px 32px; border-bottom: 2px solid var(--gold); }
+    .page-header-inner { max-width: 860px; margin: 0 auto; }
+    .breadcrumb { font-size: 11px; color: rgba(255,255,255,0.45); margin-bottom: 10px; }
+    .breadcrumb a { color: rgba(255,255,255,0.45); text-decoration: none; }
+    .breadcrumb a:hover { color: var(--gold); }
+    .breadcrumb span { margin: 0 6px; }
+    .page-header h1 { font-family: 'Playfair Display', serif; font-size: 28px; font-weight: 600; color: var(--white); margin-bottom: 6px; }
+    .page-header p { font-size: 13.5px; color: rgba(255,255,255,0.65); font-weight: 300; }
+    main { max-width: 720px; margin: 0 auto; padding: 40px 40px 60px; }
+    .section-label {
+      font-size: 10.5px; font-weight: 600; color: var(--muted);
+      letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 14px;
+    }
+    /* ── FAQ ACCORDION ── */
+    .faq-group { margin-bottom: 32px; }
+    .faq-group-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 16px; font-weight: 500; color: var(--maroon);
+      margin-bottom: 12px; padding-bottom: 8px;
+      border-bottom: 2px solid var(--gold);
+    }
+    .faq-item {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      margin-bottom: 8px;
+      overflow: hidden;
+    }
+    .faq-question {
+      width: 100%; text-align: left;
+      background: none; border: none; cursor: pointer;
+      padding: 16px 18px;
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 12px;
+      font-family: 'Source Sans 3', sans-serif;
+      font-size: 13.5px; font-weight: 600; color: var(--text);
+      transition: background 0.15s;
+    }
+    .faq-question:hover { background: var(--maroon-light); }
+    .faq-question.open { background: var(--maroon-light); color: var(--maroon); }
+    .faq-icon {
+      width: 20px; height: 20px; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      background: var(--maroon-light); border-radius: 50%;
+      font-size: 14px; color: var(--maroon);
+      transition: transform 0.2s;
+    }
+    .faq-question.open .faq-icon { transform: rotate(45deg); background: var(--maroon); color: var(--white); }
+    .faq-answer {
+      display: none;
+      padding: 0 18px 16px;
+      font-size: 13px; color: var(--muted); line-height: 1.7;
+      border-top: 1px solid var(--border-light);
+    }
+    .faq-answer.open { display: block; }
+    .faq-answer a { color: var(--maroon); font-weight: 500; }
+    .faq-answer strong { color: var(--text); font-weight: 600; }
+    .faq-answer ul { padding-left: 18px; margin-top: 6px; }
+    .faq-answer ul li { margin-bottom: 4px; }
+    /* ── STILL HAVE QUESTIONS ── */
+    .still-questions {
+      background: var(--maroon);
+      border-radius: 12px;
+      padding: 28px;
+      text-align: center;
+      margin-top: 40px;
+    }
+    .still-questions h3 { font-family: 'Playfair Display', serif; font-size: 18px; font-weight: 500; color: var(--white); margin-bottom: 8px; }
+    .still-questions p { font-size: 13px; color: rgba(255,255,255,0.7); margin-bottom: 18px; }
+    .still-questions a {
+      display: inline-block; background: var(--gold); color: var(--maroon-dark);
+      text-decoration: none; padding: 10px 24px; border-radius: 8px;
+      font-size: 13px; font-weight: 600;
+    }
+    .still-questions a:hover { background: #d4b55a; }
+    footer { background: var(--maroon-dark); padding: 24px 40px; border-top: 2px solid var(--gold); }
+    .footer-inner { max-width: 860px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 20px; }
+    .footer-inner p, .footer-inner a { font-size: 11px; color: rgba(255,255,255,0.5); text-decoration: none; }
+    .footer-inner a:hover { color: var(--gold); }
+    @media (max-width: 680px) {
+      nav { padding: 0 20px; }
+      .nav-links { display: none; }
+      .page-header { padding: 28px 20px; }
+      main { padding: 28px 20px 48px; }
+      .footer-inner { flex-direction: column; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="topbar">
+    Tarlac State University &mdash; College of Education &mdash; Graduate School Service Portal
+  </div>
+
+  <nav>
+    <a href="index.html" class="nav-brand">
+      <div class="nav-seal">TSU</div>
+      <div class="nav-text">
+        <strong>Project DRIA</strong>
+        <span>COEd Graduate School</span>
+      </div>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="submit.html">Submit a request</a></li>
+      <li><a href="track.html">Track my request</a></li>
+      <li><a href="faq.html" class="active">FAQs</a></li>
+      <li><a href="contact.html">Contact</a></li>
+      <li><a href="submit.html" class="btn-submit">Submit now</a></li>
+    </ul>
+  </nav>
+
+  <div class="page-header">
+    <div class="page-header-inner">
+      <div class="breadcrumb">
+        <a href="index.html">Home</a><span>&rsaquo;</span>FAQs
+      </div>
+      <h1>Frequently Asked Questions</h1>
+      <p>Find answers to the most common questions about using the Project DRIA portal.</p>
+    </div>
+  </div>
+
+  <main>
+
+    <!-- GROUP 1: General -->
+    <div class="faq-group">
+      <div class="faq-group-title">General</div>
+
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFaq(this)">
+          Ano ang Project DRIA?
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-answer">
+          Ang Project DRIA (Data-Driven Reporting and Interaction Acceleration) ay ang official online service portal ng TSU College of Education Graduate School. Dito pwede kang mag-submit ng requests, mag-track ng status, at mag-inquire — lahat online, walang kailangang pumunta sa opisina para sa mga routine na transactions.
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFaq(this)">
+          Libre ba ang portal? Kailangan bang mag-register?
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-answer">
+          <strong>Libre</strong> ang portal at <strong>hindi kailangan mag-register</strong> o gumawa ng account. Basta active student o staff ka ng TSU-COEd, pwede ka nang mag-submit. Kailangan mo lang ng active Gmail address para matanggap ang mga email updates.
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFaq(this)">
+          Anong mga serbisyo ang available sa portal?
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-answer">
+          Sa ngayon, tatlong serbisyo ang available:
+          <ul>
+            <li><strong>Comprehensive Exam Application</strong> — para mag-apply ng comprehensive exam</li>
+            <li><strong>Thesis/Dissertation Oral Defense Tracking</strong> — para mag-track ng progress sa oral defense process</li>
+            <li><strong>General Inquiry</strong> — para sa anumang tanong o concern sa Graduate School office</li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- GROUP 2: Submitting a Request -->
+    <div class="faq-group">
+      <div class="faq-group-title">Submitting a request</div>
+
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFaq(this)">
+          Paano mag-submit ng request?
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-answer">
+          Pumunta sa <a href="submit.html">Submit a Request</a> page → piliin ang tamang serbisyo → punan ang form → mag-submit. Makakatanggap ka agad ng confirmation email na may reference number.
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFaq(this)">
+          Anong Gmail ang dapat gamitin?
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-answer">
+          Gamitin ang iyong <strong>active personal Gmail</strong> (yung madalas mong binubuksan). Doon ipapadala ang confirmation email at lahat ng status updates. Kung maling Gmail ang na-enter, hindi mo matatanggap ang mga notifications.
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFaq(this)">
+          Pwede bang mag-submit nang higit sa isang request?
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-answer">
+          Oo, pwede. Bawat submission ay may sariling reference number at status tracker. Matatanggap mo ang separate na notifications para sa bawat request.
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFaq(this)">
+          Nakalimutan ko mag-submit. Pwede bang bumalik sa form?
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-answer">
+          Oo. Bumalik lang sa <a href="submit.html">Submit a Request</a> page at punan ulit ang form. Walang limit sa bilang ng submissions, pero siguraduhing wala kang duplicate na request para hindi maligalig ang processing.
+        </div>
+      </div>
+
+    </div>
+
+    <!-- GROUP 3: Tracking -->
+    <div class="faq-group">
+      <div class="faq-group-title">Tracking your request</div>
+
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFaq(this)">
+          Paano ko malalaman ang status ng aking request?
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-answer">
+          Dalawang paraan:
+          <ul>
+            <li><strong>Email</strong> — awtomatikong magpapadala ang sistema ng email sa iyo tuwing magbabago ang status ng iyong request.</li>
+            <li><strong>Track page</strong> — pumunta sa <a href="track.html">Track my request</a> → i-type ang iyong pangalan o reference number → click Search.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFaq(this)">
+          Ano ang ibig sabihin ng bawat status?
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-answer">
+          <ul>
+            <li><strong>Pending</strong> — natanggap ng sistema ang iyong request, hinihintay pang ma-review ng staff.</li>
+            <li><strong>In Review</strong> — tinitingnan na ng staff ang iyong request.</li>
+            <li><strong>Approved</strong> — naaprubahan na ang iyong request. May susunod na steps — abangan ang email.</li>
+            <li><strong>Done</strong> — kumpleto na ang iyong request.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFaq(this)">
+          Gaano katagal bago ma-process ang request?
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-answer">
+          Ayon sa <strong>RA 11032 (Ease of Doing Business Act)</strong>:
+          <ul>
+            <li>Simple requests — 3 working days</li>
+            <li>Complex requests — 7 working days</li>
+            <li>Highly technical requests — 20 working days</li>
+          </ul>
+          Ang portal ay tumutulong na mas mapabilis ang proseso.
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFaq(this)">
+          Hindi ko matandaan ang reference number ko. Paano ko ma-track ang request ko?
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-answer">
+          Pwede kang mag-search sa <a href="track.html">Track my request</a> gamit ang iyong <strong>pangalan</strong> — hindi kailangan ng reference number. I-type lang ang iyong buong pangalan at click Search.
+        </div>
+      </div>
+
+    </div>
+
+    <!-- GROUP 4: Technical -->
+    <div class="faq-group">
+      <div class="faq-group-title">Technical questions</div>
+
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFaq(this)">
+          Hindi ko natanggap ang confirmation email. Ano ang gagawin ko?
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-answer">
+          Una, tingnan ang iyong <strong>Spam o Junk folder</strong> — minsan nandoon ang automated emails. Kung wala pa rin, possible na mali ang na-enter mong Gmail. Mag-submit ulit ng bagong request na may tamang Gmail address.
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFaq(this)">
+          Hindi gumagana ang form sa aking phone. Ano ang gagawin?
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-answer">
+          Sinisigurado naming mobile-friendly ang portal. Subukan ang mga ito:
+          <ul>
+            <li>I-refresh ang page</li>
+            <li>Gamitin ang Google Chrome browser</li>
+            <li>I-clear ang browser cache (Settings → Clear browsing data)</li>
+            <li>Subukan sa ibang device o sa laptop/PC</li>
+          </ul>
+          Kung hindi pa rin gumagana, makipag-ugnayan sa <a href="contact.html">Contact page</a>.
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFaq(this)">
+          Ligtas ba ang aking personal data?
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-answer">
+          Oo. Ang portal ay sumusunod sa <strong>RA 10173 (Data Privacy Act of 2012)</strong>. Ang iyong data ay ginagamit lamang para sa pagproseso ng iyong request at hindi ibinabahagi sa ibang partido. Ang Track page ay nagpapakita lamang ng reference number, pangalan, uri ng request, at status — hindi personal information tulad ng address o contact number.
+        </div>
+      </div>
+
+    </div>
+
+    <div class="still-questions">
+      <h3>Hindi mo makita ang sagot mo?</h3>
+      <p>Makipag-ugnayan sa Graduate School office at tutulungan ka namin.</p>
+      <a href="contact.html">Go to Contact page &rarr;</a>
+    </div>
+
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+      <p>&copy; 2025 Tarlac State University &mdash; College of Education. Project DRIA.</p>
+      <p>Aligned with <a href="#">RA 11032 &mdash; Ease of Doing Business Act</a></p>
+    </div>
+  </footer>
+
+  <script>
+    function toggleFaq(btn) {
+      const answer = btn.nextElementSibling;
+      const isOpen = btn.classList.contains('open');
+      document.querySelectorAll('.faq-question.open').forEach(b => {
+        b.classList.remove('open');
+        b.nextElementSibling.classList.remove('open');
+      });
+      if (!isOpen) {
+        btn.classList.add('open');
+        answer.classList.add('open');
+      }
+    }
+  </script>
+
+</body>
+</html>
