@@ -477,7 +477,7 @@
       // Step 1: Publish your Google Sheet as a CSV (see instructions in the Apps Script file)
       // File > Share > Publish to web > Sheet: Requests_Master > CSV > Publish
       // Paste the published CSV URL below:
-      SHEET_CSV_URL: "PASTE_YOUR_PUBLISHED_SHEET_CSV_URL_HERE",
+      SHEET_CSV_URL: "https://docs.google.com/spreadsheets/d/e/2PACX-1vTYt9XKUyqso4Ni75DXQDd0YEFyjvFMM3U2JrSEfs5R39Y1V3kqHszDjZCsP9yMZJT6shQb1x4Gz9B6/pub?gid=1835627550&single=true&output=csv",
 
       // Column indexes (0-based) — must match your Google Sheet column order exactly
       // Default order from the Apps Script setup:
@@ -546,14 +546,7 @@
         return;
       }
 
-      if (CONFIG.SHEET_CSV_URL === "PASTE_YOUR_PUBLISHED_SHEET_CSV_URL_HERE") {
-        body.innerHTML = `<div class="state-box">
-          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-          <h3>Sheet not connected yet</h3>
-          <p>Paste your published Google Sheet CSV URL in track.html inside the CONFIG block.</p></div>`;
-        count.textContent = "Not connected";
-        return;
-      }
+
 
       body.innerHTML = `<div class="state-box"><div class="spinner"></div><h3>Loading...</h3><p>Fetching latest data from the tracker.</p></div>`;
 
